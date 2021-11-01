@@ -148,9 +148,11 @@ Este servicio se utiliza para borrar canciones en nuestra base de datos.
 ```
 
 * validaciones:
+
 | Campo     | Validación               |
 | --------- | ------------------------ |
 | Nombre    | Tiene que ser un string  |
+
 
 * errores:
 | Codigo                | Mensaje                                       | HTTP  |
