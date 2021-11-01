@@ -41,7 +41,7 @@ Este servicio se utiliza para agregar canciones a nuestra base de datos.
 
 | Codigo                | Mensaje                                       | HTTP  |
 | --------------------- | ---------------------------------------       | ----- |
-| Bad Request           | No se escribieron todos los campos requeridos | 400   |
+| BadRequest            | No se escribieron todos los campos requeridos | 400   |
 | InvalidBodyException  | El campo debe ser un string                   | 422   |
 
 * respuesta: HTTP 201 
@@ -118,7 +118,7 @@ Este servicio se utiliza para actualizar canciones de nuestra base de datos al i
 | --------------------- | ---------------------------------------       | ----- |
 | BadRequest            | No se escribieron todos los campos requeridos | 400   |
 | InvalidBodyException  | El campo debe ser un string                   | 422   |
-| SongNotFoundException | El campo debe ser un string                   | 500   |
+| SongNotFoundException | No existe la canción                          | 500   |
 
 * respuesta: HTTP 201 
 ```json
@@ -163,7 +163,7 @@ Este servicio se utiliza para borrar canciones en nuestra base de datos.
 | --------------------- | ---------------------------------------       | ----- |
 | Bad Request           | No se escribieron todos los campos requeridos | 400   |
 | InvalidBodyException  | El campo debe ser un string                   | 422   |
-| SongNotFoundException | El campo debe ser un string                   | 500   |
+| SongNotFoundException | No existe la canción                          | 500   |
 
 * respuesta: HTTP 201 
 ```json
@@ -186,11 +186,172 @@ Este servicio se utiliza para borrar canciones en nuestra base de datos.
 
 ### Agregar Libros
 
+Este servicio se utiliza para agregar libros a nuestra base de datos.
+
+* endpoint: `/libros/agregarLibro`
+* método: `POST`
+* body: 
+```json
+{
+    "nombre": "El hobbit",
+    "autor": "J.R.R. Tolkien",
+    "paginas": 310
+}
+```
+
+* validaciones:
+
+| Campo     | Validación                      |
+| --------- | ------------------------        |
+| Nombre    | Tiene que ser un string         |
+| Autor     | Tiene que ser un string         |
+| Páginas   | Tiene que ser un número entero  |
+
+* errores:
+
+| Codigo                | Mensaje                                       | HTTP  |
+| --------------------- | ---------------------------------------       | ----- |
+| BadRequest            | No se escribieron todos los campos requeridos | 400   |
+| InvalidBodyException  | El campo debe ser un string                   | 422   |
+| InvalidBodyException  | El campo debe ser un número entero            | 422   |
+
+* respuesta: HTTP 201 
+```json
+{
+    "nombre": "Nombre del libro",
+    "autor": "Nombre del Autor",
+    "paginas": "Numero de páginas",
+    "Operación": "Libro agregado correctamente"
+}
+```
+
+* respuesta con error:  HTTP 422
+```json
+{
+    "Operación": "Error al agregar libro"
+}
+```
+
 ### Obtener Libros
+
+Este servicio se utiliza para obtener los libros de nuestra base de datos.
+
+* endpoint: `/libros/obtenerLibro`
+* método: `GET`
+* respuesta: HTTP 200
+```json
+{   
+    "Operación": "Libros encontrados",
+    "Canciones": [
+        {
+            "nombre": "Nombre de libro 1",
+            "autor": "Autor",
+            "paginas": "Numero de páginas"
+        },
+        {
+            "nombre": "Nombre de libro 2",
+            "autor": "Autor",
+            "paginas": "Numero de páginas"
+        }
+    ]
+    
+}
+```
 
 ### Actualizar Libros
 
+Este servicio se utiliza para actualizar libros de nuestra base de datos al ingresar el nombre del libro y los parámetros a actualizar.
 
-### Borrar Libros
+* endpoint: `/libros/actualizarLibro`
+* método: `POST`
+* body: 
+```json
+{
+    "nombre": "1984",
+    "cambio": {
+        "autor": "George Orwell",
+        "paginas": 326
+    }
+}
+```
+
+* validaciones:
+
+| Campo     | Validación                      |
+| --------- | ------------------------        |
+| Nombre    | Tiene que ser un string         |
+| Autor     | Tiene que ser un string         |
+| Páginas   | Tiene que ser un número entero  |
+
+* errores:
+
+| Codigo                | Mensaje                                       | HTTP  |
+| --------------------- | ---------------------------------------       | ----- |
+| BadRequest            | No se escribieron todos los campos requeridos | 400   |
+| InvalidBodyException  | El campo debe ser un string                   | 422   |
+| InvalidBodyException  | El campo debe ser un número entero            | 422   |
+| SongNotFoundException | No existe el libro                            | 500   |
+
+* respuesta: HTTP 201 
+```json
+{
+    "nombre": "Nombre del libro actualizado",
+    "autor": "Nombre del Autor actualizado",
+    "paginas": "Número de páginas actualizadas",
+    "Operación": "Libro actualizado correctamente"
+}
+```
+
+* respuesta con error:  HTTP 422
+```json
+{
+    "Operación": "Error al actualizar libro"
+}
+```
+
+
+### Borrar Canciones
+
+Este servicio se utiliza para borrar libros en nuestra base de datos.
+
+* endpoint: `/libros/borrarLibro`
+* método: `POST`
+* body: 
+```json
+{
+    "nombre": "Drácula"
+}
+```
+
+* validaciones:
+
+| Campo     | Validación               |
+| --------- | ------------------------ |
+| Nombre    | Tiene que ser un string  |
+
+* errores:
+
+| Codigo                | Mensaje                                       | HTTP  |
+| --------------------- | ---------------------------------------       | ----- |
+| Bad Request           | No se escribieron todos los campos requeridos | 400   |
+| InvalidBodyException  | El campo debe ser un string                   | 422   |
+| SongNotFoundException | No existe el libro                            | 500   |
+
+* respuesta: HTTP 201 
+```json
+{
+    "nombre": "Nombre del libro borrado",
+    "autor": "Nombre del autor borrado",
+    "paginas": "Número de páginas borradas",
+    "Operación": "Libro borrado correctamente"
+}
+```
+
+* respuesta con error:  HTTP 422
+```json
+{
+    "Operación": "Error al borrar libro"
+}
+```
 
 
