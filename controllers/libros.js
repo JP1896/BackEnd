@@ -30,7 +30,7 @@ exports.getObtenerLibro = async (req,res)=>{
 exports.postActualizarLibro = async (req,res)=>{
     // Filtro y cambio
     try {
-        await Libro.findOneAndUpdate({ nombre: req.body.filtro.nombre },req.body.cambio)
+        await Libro.findOneAndUpdate({ nombre: req.body.nombre },req.body.cambio)
         Libro.exists()
         console.log("Libro actualizado")
         res.json({operacion:"correcta"})
@@ -51,7 +51,7 @@ exports.postBorrarLibro = async (req,res)=>{
             console.log("Libro no encontrado")
             res.json({operacion:"incorrecta"})
         }
-        
+
     }catch(err){
         console.log(err)
         res.send({operacion:"incorrecta"})

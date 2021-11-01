@@ -30,7 +30,7 @@ exports.getObtenerCancion = async (req,res)=>{
 exports.postActualizarCancion = async (req,res)=>{
     // Filtro y cambio
     try {
-        await Cancion.findOneAndUpdate({ nombre: req.body.filtro.nombre },req.body.cambio)
+        await Cancion.findOneAndUpdate({ nombre: req.body.nombre },req.body.cambio)
         Cancion.exists()
         console.log("Canción actualizada")
         res.json({operacion:"correcta"})
@@ -51,7 +51,7 @@ exports.postBorrarCancion = async (req,res)=>{
             console.log("Canción no encontrada")
             res.json({operacion:"incorrecta"})
         }
-        
+
     }catch(err){
         console.log(err)
         res.send({operacion:"incorrecta"})
