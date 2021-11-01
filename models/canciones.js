@@ -1,18 +1,21 @@
-const Sequelize = require('sequelize')
-const Cancion = (Sequelize)=>{
-    Sequelize.define('cancion',{
-        id:{
-            type:Sequelize.INTEGER,
-            allowNull:false,
-            primaryKey:true
-        },
-        nombre:Sequelize.STRING,
+const mongoose = require('mongoose')
 
-        autor:Sequelize.STRING,
+// Definir Schema
+const CancionesSchema = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    nombre:{
+        type: String,
+        required: true
+    },
+    autor:{
+        type: [String],
+        required: true
+    },
+    album:{
+        type: Number,
+        required: true
+    }
+},{collection:'Canciones'})
 
-        album:Sequelize.STRING
-    })
-
-}
-
-module.exports = Cancion
+// Compilar modelo de schema
+module.exports = mongoose.model('Canciones',CancionesSchema)

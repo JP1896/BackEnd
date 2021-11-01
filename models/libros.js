@@ -1,18 +1,21 @@
-const Sequelize = require('sequelize')
-const Libro = (Sequelize)=>{
-    Sequelize.define('libro',{
-        id:{
-            type:Sequelize.INTEGER,
-            allowNull:false,
-            primaryKey:true
-        },
-        nombre:Sequelize.STRING,
+const mongoose = require('mongoose')
 
-        autor:Sequelize.STRING,
+// Definir Schema
+const LibrosSchema = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    nombre:{
+        type: String,
+        required: true
+    },
+    autor:{
+        type: String,
+        required: true
+    },
+    paginas:{
+        type: Number,
+        required: true
+    }
+},{collection:'Libros'})
 
-        paginas:Sequelize.INTEGER
-    })
-
-}
-
-module.exports = Libro
+// Compilar modelo de schema
+module.exports = mongoose.model('Libros',LibrosSchema)
