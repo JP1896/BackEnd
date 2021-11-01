@@ -1,64 +1,51 @@
-const path = require('path')
-const moongoose = require('moongose')
-const cancion = require('../utils/database').models.cancion
-//CRUD
-//-----------------------------------------------
-exports.postAgregarCancion=(req,res)=>{
-    console.log(req.body)
-    cancion.create(req.body)
-        .then(can=>{
-            console.log('Registro Exitoso')
-            res.json({estado:"Aceptado"})
-        })
-        .catch(err=>{
-            console.log(err)
-            res.json({estado:"Error"})
-        })
-}
-//-----------------------------------------------
-exports.getObtenerCancion = (req,res)=>{
-    cancion.findAll()
-        .then(canciones =>{
-            console.log(canciones)
-            res.json(canciones)
-        })
-        .catch(err=>console.log(err))
-} 
-//-----------------------------------------------
-exports.postBorrarCancion = (req,res)=>{
-    console.log(req.body)
-    cancion.destroy({
-        where:{
-            id:req.body.id
-        }
-    })
-    .then(() =>{
-        console.log("Cancion Eliminada")
-        res.json({estado: "Aceptado"})
-    })
-    .catch(err=>{
-        console.log(err)
-        res.json({estado: "Error"})
-    })
-}
-//-----------------------------------------------
+const Cancion = require('../models/canciones')
+const mongoose = require("mongoose")
 
-exports.postActualizarCancion = (req,res)=>{
-    console.log(req.body)
-    cancion.update({
-        nombre:req.body.nombre
-    },{
-      where:{
-          id: req.body.id
-      }  
-    }
-    )
-    .then(() =>{
-        console.log("Cancion Actualizada")  
-        res.json({estado: "Aceptado"})
-    })
-    .catch(err=>{
+//CRUD
+//------------------- Agregar ----------------------------
+exports.postAgregarCancion = async (req,res)=>{
+    const cancion = new Cancion(req.body)
+    cancion._id = new mongoose.Types.ObjectId()
+    try{
+        // Agregar documento a la coleccion
+        await cancion.save()
+        console.log(cancion)
+        console.log("Canción registrada")
+        res.send({operacion:"correcta"})
+
+    }catch(err){
         console.log(err)
-        res.json({estado: "error"})
-    })
+        res.send({operacion:"incorrecta"})
+    }
+}
+
+//------------------- Obtener ----------------------------
+exports.getObtenerCancion = (req,res)=>{
+    const cancion = await Cancion.find()
+    console.log(cancion)
+    res.json(cancion)
+}
+
+//------------------- Actualizar -------------------------
+exports.postActualizarCancion = (req,res)=>{
+    // Filtro y cambio
+    try {
+        await Cancion.findOneAndUpdate(req.body.filtro,req.body.cambio)
+        Cancion.exists()
+        console.log("Canción actualizada")
+        res.json({operacion:"correcta"})
+    }catch(err){
+        console.log(err)
+    }
+}
+
+//------------------- Borrar -----------------------------
+exports.postBorrarCancion = (req,res)=>{
+    try{
+        await Cancion.findOneAndRemove(req.body)
+        console.log("Canción eliminada")
+        res.json({operacion:"correcta"})
+    }catch(err){
+        console.log(err)
+    }
 }

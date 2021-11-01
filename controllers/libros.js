@@ -1,64 +1,51 @@
-const path = require('path')
-const moongoose = require('moongose')
-const cancion = require('../utils/database').models.libros
-//CRUD
-//-----------------------------------------------
-exports.postAgregarLibro=(req,res)=>{
-    console.log(req.body)
-    libro.create(req.body)
-        .then(lib=>{
-            console.log('Registro Exitoso')
-            res.json({estado:"Acepatdo"})
-        })
-        .catch(err=>{
-            console.log(err)
-            res.json({estado:"Error"})
-        })
-}
-//-----------------------------------------------
-exports.getObtenerLibro = (req,res)=>{
-    libro.findAll()
-        .then(libros =>{
-            console.log(libros)
-            res.json(libros)
-        })
-        .catch(err=>console.log(err))
-} 
-//-----------------------------------------------
-exports.postBorrarLibro = (req,res)=>{
-    console.log(req.body)
-    libro.destroy({
-        where:{
-            id:req.body.id
-        }
-    })
-    .then(() =>{
-        console.log("Libro Eliminado")
-        res.json({estado: "Aceptado"})
-    })
-    .catch(err=>{
-        console.log(err)
-        res.json({estado: "Error"})
-    })
-}
-//-----------------------------------------------
+const Libro = require('../models/libros')
+const mongoose = require("mongoose")
 
-exports.postActualizarLibro = (req,res)=>{
-    console.log(req.body)
-    libro.update({
-        nombre:req.body.nombre
-    },{
-      where:{
-          id: req.body.id
-      }  
-    }
-    )
-    .then(() =>{
-        console.log("Libro Actualizado")  
-        res.json({estado: "Aceptado"})
-    })
-    .catch(err=>{
+//CRUD
+//------------------- Agregar ----------------------------
+exports.postAgregarLibro=(req,res)=>{
+    const libro = new Cancion(req.body)
+    libro._id = new mongoose.Types.ObjectId()
+    try{
+        // Agregar documento a la coleccion
+        await libro.save()
+        console.log(libro)
+        console.log("Canción registrada")
+        res.send({operacion:"correcta"})
+
+    }catch(err){
         console.log(err)
-        res.json({estado: "error"})
-    })
+        res.send({operacion:"incorrecta"})
+    }
+}
+
+//------------------- Obtener ----------------------------
+exports.getObtenerLibro = (req,res)=>{
+    const libro = await Libro.find()
+    console.log(libro)
+    res.json(libro)
+} 
+
+//------------------- Actualizar -------------------------
+exports.postActualizarLibro = (req,res)=>{
+    // Filtro y cambio
+    try {
+        await Libro.findOneAndUpdate(req.body.filtro,req.body.cambio)
+        Libro.exists()
+        console.log("Libro actualizado")
+        res.json({operacion:"correcta"})
+    }catch(err){
+        console.log(err)
+    }
+}
+
+//------------------- Borrar -----------------------------
+exports.postBorrarLibro = (req,res)=>{
+    try{
+        await Libro.findOneAndRemove(req.body)
+        console.log("Libro eliminado")
+        res.json({operacion:"correcta"})
+    }catch(err){
+        console.log(err)
+    }
 }
