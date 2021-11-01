@@ -30,6 +30,7 @@ Este servicio se utiliza para agregar canciones a nuestra base de datos.
 ```
 
 * validaciones:
+
 | Campo     | Validación                                    |
 | --------- | ---------------------------------------       |
 | Nombre    | Tiene que ser un string                       |
@@ -37,6 +38,7 @@ Este servicio se utiliza para agregar canciones a nuestra base de datos.
 | Album     | Tiene que ser un string                       |
 
 * errores:
+
 | Codigo                | Mensaje                                       | HTTP  |
 | --------------------- | ---------------------------------------       | ----- |
 | Bad Request           | No se escribieron todos los campos requeridos | 400   |
@@ -103,6 +105,7 @@ Este servicio se utiliza para actualizar canciones de nuestra base de datos al i
 ```
 
 * validaciones:
+
 | Campo     | Validación                                    |
 | --------- | ---------------------------------------       |
 | Nombre    | Tiene que ser un string                       |
@@ -110,6 +113,7 @@ Este servicio se utiliza para actualizar canciones de nuestra base de datos al i
 | Album     | Tiene que ser un string                       |
 
 * errores:
+
 | Codigo                | Mensaje                                       | HTTP  |
 | --------------------- | ---------------------------------------       | ----- |
 | BadRequest            | No se escribieron todos los campos requeridos | 400   |
@@ -148,12 +152,13 @@ Este servicio se utiliza para borrar canciones en nuestra base de datos.
 ```
 
 * validaciones:
+
 | Campo     | Validación               |
 | --------- | ------------------------ |
 | Nombre    | Tiene que ser un string  |
 
-
 * errores:
+
 | Codigo                | Mensaje                                       | HTTP  |
 | --------------------- | ---------------------------------------       | ----- |
 | Bad Request           | No se escribieron todos los campos requeridos | 400   |
