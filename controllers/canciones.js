@@ -20,17 +20,17 @@ exports.postAgregarCancion = async (req,res)=>{
 }
 
 //------------------- Obtener ----------------------------
-exports.getObtenerCancion = (req,res)=>{
+exports.getObtenerCancion = async (req,res)=>{
     const cancion = await Cancion.find()
     console.log(cancion)
     res.json(cancion)
 }
 
 //------------------- Actualizar -------------------------
-exports.postActualizarCancion = (req,res)=>{
+exports.postActualizarCancion = async (req,res)=>{
     // Filtro y cambio
     try {
-        await Cancion.findOneAndUpdate(req.body.filtro,req.body.cambio)
+        await Cancion.findOneAndUpdate({ nombre: req.body.filtro.nombre },req.body.cambio)
         Cancion.exists()
         console.log("Canción actualizada")
         res.json({operacion:"correcta"})
@@ -40,12 +40,20 @@ exports.postActualizarCancion = (req,res)=>{
 }
 
 //------------------- Borrar -----------------------------
-exports.postBorrarCancion = (req,res)=>{
+exports.postBorrarCancion = async (req,res)=>{
     try{
-        await Cancion.findOneAndRemove(req.body)
-        console.log("Canción eliminada")
-        res.json({operacion:"correcta"})
+        const existe = await Cancion.exists({ nombre: req.body.nombre })
+        if (existe){
+            await Cancion.findOneAndRemove({ nombre: req.body.nombre })
+            console.log("Canción eliminada")
+            res.json({operacion:"correcta"})
+        }else{
+            console.log("Canción no encontrada")
+            res.json({operacion:"incorrecta"})
+        }
+        
     }catch(err){
         console.log(err)
+        res.send({operacion:"incorrecta"})
     }
 }

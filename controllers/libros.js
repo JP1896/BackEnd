@@ -3,14 +3,14 @@ const mongoose = require("mongoose")
 
 //CRUD
 //------------------- Agregar ----------------------------
-exports.postAgregarLibro=(req,res)=>{
-    const libro = new Cancion(req.body)
+exports.postAgregarLibro = async (req,res)=>{
+    const libro = new Libro(req.body)
     libro._id = new mongoose.Types.ObjectId()
     try{
         // Agregar documento a la coleccion
         await libro.save()
         console.log(libro)
-        console.log("Canción registrada")
+        console.log("Libro registrado")
         res.send({operacion:"correcta"})
 
     }catch(err){
@@ -20,17 +20,17 @@ exports.postAgregarLibro=(req,res)=>{
 }
 
 //------------------- Obtener ----------------------------
-exports.getObtenerLibro = (req,res)=>{
+exports.getObtenerLibro = async (req,res)=>{
     const libro = await Libro.find()
     console.log(libro)
     res.json(libro)
 } 
 
 //------------------- Actualizar -------------------------
-exports.postActualizarLibro = (req,res)=>{
+exports.postActualizarLibro = async (req,res)=>{
     // Filtro y cambio
     try {
-        await Libro.findOneAndUpdate(req.body.filtro,req.body.cambio)
+        await Libro.findOneAndUpdate({ nombre: req.body.filtro.nombre },req.body.cambio)
         Libro.exists()
         console.log("Libro actualizado")
         res.json({operacion:"correcta"})
@@ -40,12 +40,20 @@ exports.postActualizarLibro = (req,res)=>{
 }
 
 //------------------- Borrar -----------------------------
-exports.postBorrarLibro = (req,res)=>{
+exports.postBorrarLibro = async (req,res)=>{
     try{
-        await Libro.findOneAndRemove(req.body)
-        console.log("Libro eliminado")
-        res.json({operacion:"correcta"})
+        const existe = await Libro.exists({ nombre: req.body.nombre })
+        if (existe){
+            await Libro.findOneAndRemove({ nombre: req.body.nombre })
+            console.log("Libro eliminado")
+            res.json({operacion:"correcta"})
+        }else{
+            console.log("Libro no encontrado")
+            res.json({operacion:"incorrecta"})
+        }
+        
     }catch(err){
         console.log(err)
+        res.send({operacion:"incorrecta"})
     }
 }
