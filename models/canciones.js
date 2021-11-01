@@ -12,7 +12,7 @@ const CancionesSchema = mongoose.Schema({
         required: true
     },
     album:{
-        type: Number,
+        type: String,
         required: true
     }
 },{collection:'Canciones'})
