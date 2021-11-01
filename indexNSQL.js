@@ -1,5 +1,5 @@
 const express = require('express')
-const moongose = require('moongose')
+const mongoose = require('mongoose')
 const librosRoutes = require('./routes/libros')
 const cancionesRoutes = require('./routes/canciones')
 const app = express()
@@ -11,6 +11,6 @@ app.use('/canciones',cancionesRoutes)
 
 mongoose.connect('mongodb://userX:root@54.198.161.35:27017/baseX?authSource=admin')
 .then(()=>{
-    app.listen(8080,()=>console.log('Servidor en linea'))
+    app.listen(8084,()=>console.log('Servidor en linea en puerto 8084'))
 })
 .catch(err=>console.log(err))
