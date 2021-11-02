@@ -242,7 +242,7 @@ Este servicio se utiliza para obtener los libros de nuestra base de datos.
 ```json
 {   
     "Operación": "Libros encontrados",
-    "Canciones": [
+    "libros": [
         {
             "nombre": "Nombre de libro 1",
             "autor": "Autor",
